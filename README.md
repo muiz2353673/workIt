@@ -1,2 +1,5 @@
 # workIt
-Team project 2
+Team project 
+Based on AI
+Tech stack:: Python, HTML, CSS, JS, Pyscript, PHP and SQl database
+
