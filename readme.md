@@ -32,3 +32,5 @@ AI database used in this project: [Gym Exercise Data](https://www.kaggle.com/dat
 
 -	We need to include PLESI in our report. 
 -	Sort out the issue with different genders using the app (inclusivity + tailored experience etc).
+
+https://www.youtube.com/watch?v=tcNPuDwrNM0
