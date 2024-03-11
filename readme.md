@@ -8,7 +8,7 @@ AI database used in this project: [Gym Exercise Data](https://www.kaggle.com/dat
 
 ## Project Timescale
 
-###Milestone 1 (Fri 1st March 2024 - Mon 18th March 2024)
+### Milestone 1 (Fri 1st March 2024 - Mon 18th March 2024)
 
 •	AI Development (Initial Model Development, Sanitising data etc)
 o	Input: User question: Type of exercise, Body part, Equipment, Level. Dependent on 4 inputs to output top 10.
@@ -28,7 +28,7 @@ o	Import AI Dataset and integrate into relational database (relate IDs to videos
 
 
 
-###Milestone 2 (19th March 2024 – 8th April 2024)
+### Milestone 2 (19th March 2024 – 8th April 2024)
 
 •	Backend Development Programming (Make Backend Scripts, Functions, Classes etc)
 o	Take ID from AI algorithm and run SQL queries to pass into front end. 
@@ -47,7 +47,7 @@ o	Tweaks to output Etc
 
 
 
-###Milestone 3 (9th April 2024 – 20th April 2024)
+### Milestone 3 (9th April 2024 – 20th April 2024)
 
 •	Testing of the application.
 o	Test each function is working.
@@ -66,7 +66,7 @@ o	 Create the final report for submission to Brightspace.
 
 
 
-###Further Notes: 
+### Further Notes: 
 
 •	We need to include PLESI in our report. 
 •	Sort out the issue with different genders using the app (inclusivity + tailored experience etc). 
