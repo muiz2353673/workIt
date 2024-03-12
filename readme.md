@@ -70,4 +70,3 @@ o	 Create the final report for submission to Brightspace.
 
 •	We need to include PLESI in our report. 
 •	Sort out the issue with different genders using the app (inclusivity + tailored experience etc). 
-![image](https://github.com/muiz2353673/workIt/assets/76790490/d8e05e45-a4ac-4f1e-a8d0-3ba199bc5f29)
