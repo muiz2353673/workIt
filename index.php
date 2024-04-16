@@ -40,8 +40,8 @@
   <!-- Start Home -->
   <section class="home wow flash" id="home">
   	 <div class="container">
-  	 	  <h1 class="wow slideInLeft" data-wow-delay="1s">It's <span>gym</span> time. Go and</h1>
-  	 	  <h1 class="wow slideInRight" data-wow-delay="1s">Unlock your <span>fitness potential</span></h1>
+  	 	  <h1 class="wow slideInLeft" data-wow-delay="1s">It's <span>gym</span> time.</h1>
+  	 	  <h1 class="wow slideInRight" data-wow-delay="1s">Enhance fitness with <span> AI</span></h1>
   	 </div>
   	  <!-- go down -->
   	      <a href="#about" class="go-down">
