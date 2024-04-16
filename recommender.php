@@ -38,6 +38,82 @@
  </header>
  <!-- End Header  -->
 
+  <!-- AI Recommender -->
+  <section class="service" id="service">
+ 	<div class="container">
+ 		 <div class="content">
+ 		 	  <div class="text box wow slideInLeft">
+                  <h2>AI Recommender</h2>
+                  <div class="ai-form">
+					<label for="type">Workout Type:</label>
+					<select name="workout-type" id="type">
+						<option value="Strength">Strength</option>
+						<option value="Plyometrics">Plyometrics</option>
+						<option value="Cardio">Cardio</option>
+						<option value="Stretching">Stretching</option>
+						<option value="Powerlifitng">Powerlifting</option>
+						<option value="Strongman">Strongman</option>
+						<option value="Olympic Weightlifitng">Olympic Weightlifitng</option>
+					</select>
+
+					<label for="body-part">Body Part:</label>
+					<select name="part" id="body-part">
+						<option value="abdominals">Abdominals</option>
+						<option value="abductors">Abductors</option>
+						<option value="biceps">Biceps</option>
+						<option value="Legs">Legs</option>
+						<option value="Chest">Chest</option>
+						<option value="Forearms">Forearms</option>
+						<option value="lats">Lats</option>
+						<option value="lower-back">Lower-Back</option>
+						<option value="middle-back">Middle-Back</option>
+						<option value="Traps">Traps</option>
+						<option value="Neck">Necks</option>
+						<option value="Shoulder">Shoulder</option>
+						<option value="Triceps">Triceps</option>
+					</select>
+
+					<label for="eqipment">Equipment:</label>
+					<select name="dquipment" id="equipment">
+						<option value="bands">Bands</option>
+						<option value="barbell">Barbell</option>
+						<option value="Kettlebells">Kettlebells</option>
+						<option value="Dumbbells">Dumbbells</option>
+						<option value="Other">Other</option>
+						<option value="Cable">Cable</option>
+						<option value="Machine">Machine</option>
+						<option value="Body-only">Body only</option>
+						<option value="Medicine">Medicine Ball</option>
+						<option value="exercises">Exercise</option>
+						<option value="Foam">Foam Roll</option>
+						<option value="E-Z Curl">E-Z Curl Bar</option>
+					</select>
+
+					<label for="level">Difficulty:</label>
+					<select name="levels" id="level">
+						<option value="begin">Beginner</option>
+						<option value="inter">Intermediate</option>
+						<option value="Expert">Expert</option>
+					</select>
+
+					<label for="ratings">Rating:</label>
+					<select name="rating" id="ratings">
+						<option value="begin">High-to-Low</option>
+						<option value="inter">Low-to-High</option>
+						
+					</select>
+
+
+
+				  </div>
+                  <a href="" class="btn">Search</a>
+ 		 	  </div>
+ 		 	  
+ 		 </div>
+ 	</div>
+ </section>
+ <!-- End Service -->
+
  <!-- Start Price -->
   <section class="price-package" id="price">
   	 <div class="container">
