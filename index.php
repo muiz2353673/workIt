@@ -1,14 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>WorkIT - AI Fitness Reccommender</title>
+	<title>WorkIT - AI Fitness Recommender</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" type="text/css" href="css/style.css">
-  <style>
-    .wow:first-child {
-      visibility: hidden;
-    }
-  </style>
+
+	<!-- Define Python File Path -->
+	<?php 
+		$PYTHON_PATH = "AI/source/Gym_Excercises_Recommender_(ANN).py"; 
+		$TEST_PATH = "AI/source/test.py"; 
+	?> 
+
+	<style>
+		.wow:first-child {
+		visibility: hidden;
+		}
+	</style>
   
 </head>
 <body>
@@ -100,71 +107,88 @@
  <section class="service" id="service">
  	<div class="container">
  		 <div class="content">
- 		 	  <div class="text box wow slideInLeft">
+		  <div class="text box wow slideInLeft">
                   <h2>AI Recommender</h2>
-                  <div class="ai-form">
-					<label for="type">Workout Type:</label>
-					<select name="workout-type" id="type">
-						<option value="Strength">Strength</option>
-						<option value="Plyometrics">Plyometrics</option>
-						<option value="Cardio">Cardio</option>
-						<option value="Stretching">Stretching</option>
-						<option value="Powerlifitng">Powerlifting</option>
-						<option value="Strongman">Strongman</option>
-						<option value="Olympic Weightlifitng">Olympic Weightlifitng</option>
-					</select>
+					<form method="POST">
+						<div class="ai-form">
+							<label for="workout-type">Workout Type:</label>
+							<select name="workout-type" id="workout-type">
+								<option value="Strength">Strength</option>
+								<option value="Plyometrics">Plyometrics</option>
+								<option value="Cardio">Cardio</option>
+								<option value="Stretching">Stretching</option>
+								<option value="Powerlifitng">Powerlifting</option>
+								<option value="Strongman">Strongman</option>
+								<option value="Olympic Weightlifitng">Olympic Weightlifitng</option>
+							</select>
 
-					<label for="body-part">Body Part:</label>
-					<select name="part" id="body-part">
-						<option value="abdominals">Abdominals</option>
-						<option value="abductors">Abductors</option>
-						<option value="biceps">Biceps</option>
-						<option value="Legs">Legs</option>
-						<option value="Chest">Chest</option>
-						<option value="Forearms">Forearms</option>
-						<option value="lats">Lats</option>
-						<option value="lower-back">Lower-Back</option>
-						<option value="middle-back">Middle-Back</option>
-						<option value="Traps">Traps</option>
-						<option value="Neck">Necks</option>
-						<option value="Shoulder">Shoulder</option>
-						<option value="Triceps">Triceps</option>
-					</select>
+							<label for="body-part">Body Part:</label>
+							<select name="body-part" id="body-part">
+								<option value="abdominals">Abdominals</option>
+								<option value="abductors">Abductors</option>
+								<option value="biceps">Biceps</option>
+								<option value="Legs">Legs</option>
+								<option value="Chest">Chest</option>
+								<option value="Forearms">Forearms</option>
+								<option value="lats">Lats</option>
+								<option value="lower-back">Lower-Back</option>
+								<option value="middle-back">Middle-Back</option>
+								<option value="Traps">Traps</option>
+								<option value="Neck">Necks</option>
+								<option value="Shoulder">Shoulder</option>
+								<option value="Triceps">Triceps</option>
+							</select>
 
-					<label for="eqipment">Equipment:</label>
-					<select name="dquipment" id="equipment">
-						<option value="bands">Bands</option>
-						<option value="barbell">Barbell</option>
-						<option value="Kettlebells">Kettlebells</option>
-						<option value="Dumbbells">Dumbbells</option>
-						<option value="Other">Other</option>
-						<option value="Cable">Cable</option>
-						<option value="Machine">Machine</option>
-						<option value="Body-only">Body only</option>
-						<option value="Medicine">Medicine Ball</option>
-						<option value="exercises">Exercise</option>
-						<option value="Foam">Foam Roll</option>
-						<option value="E-Z Curl">E-Z Curl Bar</option>
-					</select>
+							<label for="equipment">Equipment:</label>
+							<select name="equipment" id="equipment">
+								<option value="bands">Bands</option>
+								<option value="barbell">Barbell</option>
+								<option value="Kettlebells">Kettlebells</option>
+								<option value="Dumbbells">Dumbbells</option>
+								<option value="Other">Other</option>
+								<option value="Cable">Cable</option>
+								<option value="Machine">Machine</option>
+								<option value="Body-only">Body only</option>
+								<option value="Medicine">Medicine Ball</option>
+								<option value="exercises">Exercise</option>
+								<option value="Foam">Foam Roll</option>
+								<option value="E-Z Curl">E-Z Curl Bar</option>
+							</select>
 
-					<label for="level">Difficulty:</label>
-					<select name="levels" id="level">
-						<option value="begin">Beginner</option>
-						<option value="inter">Intermediate</option>
-						<option value="Expert">Expert</option>
-					</select>
+							<label for="level">Difficulty:</label>
+							<select name="level" id="level">
+								<option value="Beginner">Beginner</option>
+								<option value="Intermediate">Intermediate</option>
+								<option value="Expert">Expert</option>
+							</select>
 
-					<label for="ratings">Rating:</label>
-					<select name="rating" id="ratings">
-						<option value="begin">High-to-Low</option>
-						<option value="inter">Low-to-High</option>
+							<label for="ratings">Rating:</label>
+							<select name="ratings" id="ratings">
+								<option value="begin">High-to-Low</option>
+								<option value="inter">Low-to-High</option>
+								
+							</select>
+						</div>
+						<input type="submit" name="recommend" class="btn" value="Recommend">
+						<input type="reset" value="Reset">
+					</form>
+					<?php
+						if(isset($_POST['recommend'])) {
 						
-					</select>
+						// Execute the Python script	
+						$command = "python " . $PYTHON_PATH .
+						" --workout-type ".$_POST["workout-type"].
+						" --body-part ".$_POST["body-part"].
+						" --equipment ".$_POST["equipment"].
+						" --level ".$_POST["level"].
+						" --ratings ".$_POST["ratings"];
 
+						$output = shell_exec($command);
+						// $output =  json_decode(exec($command, $output, $return), true);
 
-
-				  </div>
-                  <a href="" class="btn">Search</a>
+						print_r($output);
+						}
+					?>
  		 	  </div>
  		 	  
  		 </div>
