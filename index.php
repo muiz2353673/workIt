@@ -7,8 +7,7 @@
 
 	<!-- Define Python File Path -->
 	<?php 
-		$PYTHON_PATH = "AI/source/Gym_Excercises_Recommender_(ANN).py"; 
-		$TEST_PATH = "AI/source/test.py"; 
+		$FLASK_SERVER_ADDRESS = "http://127.0.0.1:5000"; 
 	?> 
 
 	<style>
@@ -124,9 +123,9 @@
 
 							<label for="body-part">Body Part:</label>
 							<select name="body-part" id="body-part">
-								<option value="abdominals">Abdominals</option>
+								<option value="Abdominals">Abdominals</option>
 								<option value="abductors">Abductors</option>
-								<option value="biceps">Biceps</option>
+								<option value="Biceps">Biceps</option>
 								<option value="Legs">Legs</option>
 								<option value="Chest">Chest</option>
 								<option value="Forearms">Forearms</option>
@@ -141,14 +140,14 @@
 
 							<label for="equipment">Equipment:</label>
 							<select name="equipment" id="equipment">
-								<option value="bands">Bands</option>
+								<option value="Bands">Bands</option>
 								<option value="barbell">Barbell</option>
 								<option value="Kettlebells">Kettlebells</option>
 								<option value="Dumbbells">Dumbbells</option>
 								<option value="Other">Other</option>
 								<option value="Cable">Cable</option>
 								<option value="Machine">Machine</option>
-								<option value="Body-only">Body only</option>
+								<option value="Body Only">Body Only</option>
 								<option value="Medicine">Medicine Ball</option>
 								<option value="exercises">Exercise</option>
 								<option value="Foam">Foam Roll</option>
@@ -172,22 +171,28 @@
 						<input type="submit" name="recommend" class="btn" value="Recommend">
 						<input type="reset" value="Reset">
 					</form>
+					
 					<?php
+					if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 						if(isset($_POST['recommend'])) {
-						
-						// Execute the Python script	
-						$command = "python " . $PYTHON_PATH .
-						" --workout-type ".$_POST["workout-type"].
-						" --body-part ".$_POST["body-part"].
-						" --equipment ".$_POST["equipment"].
-						" --level ".$_POST["level"].
-						" --ratings ".$_POST["ratings"];
+							echo $_POST['workout-type'] . "<br>";
+							echo $_POST['body-part'] . "<br>";
+							echo $_POST['equipment'] . "<br>";
+							echo $_POST['level'] . "<br>";
+							echo $_POST['ratings'] . "<br>";
 
-						$output = shell_exec($command);
-						// $output =  json_decode(exec($command, $output, $return), true);
+							$url = "http://127.0.0.1:5000/".
+							"?workout-type=" . $_POST['workout-type'] . 
+							"&body-part=".$_POST['body-part'].
+							"&equipment=".$_POST['equipment'].
+							"&level=".$_POST['level'].
+							"&ratings=".$_POST['ratings'];
 
-						print_r($output);
+							$IDs = json_decode(file_get_contents($url));
+
+							print_r($IDs);
 						}
+					}
 					?>
  		 	  </div>
  		 	  
