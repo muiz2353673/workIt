@@ -127,20 +127,14 @@
             $ssh_user = 'workit';  // SSH username
             $ssh_pass = 'umbra(despair>Quartz218';  // SSH password
 
-            // MySQL database credentials
-            $db_host = 'localhost';  // MySQL host (SSH tunnel will connect to this)
-            $db_user = 'workit';  // MySQL username
-            $db_pass = 'umbra(despair>Quartz218';  // MySQL password
-            $db_name = 'workit';  // MySQL database name
-
             // Create SSH tunnel
             $connection = ssh2_connect($ssh_host, $ssh_port);
             if (ssh2_auth_password($connection, $ssh_user, $ssh_pass)) {
                 // Forward a local port to the remote MySQL server
-                $tunnel = ssh2_tunnel($connection, $db_host, 3306);
+                $tunnel = ssh2_tunnel($connection, 'localhost', 3306);
                 if ($tunnel) {
                     // Connect to the MySQL server over the SSH tunnel
-                    $conn = new mysqli('127.0.0.1', $db_user, $db_pass, $db_name);
+                    $conn = new mysqli('127.0.0.1', 'workit', 'umbra(despair>Quartz218', 'workit');
                     if ($conn->connect_error) {
                         die("Connection failed: " . $conn->connect_error);
                     }
@@ -210,6 +204,7 @@
     </div>
 </section>
 <!-- End Results -->
+
 
 <!-- Start Contact -->
 <section class="contact" id="login">
