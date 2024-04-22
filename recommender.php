@@ -114,107 +114,115 @@
  </section>
  <!-- End Service -->
 
- <!-- Start Price -->
-  <section class="price-package" id="price">
-  	 <div class="container">
-  	 	  <h2>Choose Your Package</h2>
-  	 	  <p class="title-p">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, </p>
-  	 	  <div class="content">
-  	 	  	  <div class="box wow bounceInUp">
-  	 	  	  	  <div class="inner">
-  	 	  	  	  	   <div class="price-tag">
-  	 	  	  	  	   	  $59/Month
-  	 	  	  	  	   </div>
-  	 	  	  	  	   <div class="img">
-  	 	  	  	  	   	 <img src="images/price1.jpg" alt="price" />
-  	 	  	  	  	   </div>
-  	 	  	  	  	   <div class="text">
-  	 	  	  	  	   	  <h3>Body Building Training</h3>
-  	 	  	  	  	   	  <p>Get Free WiFi</p>
-  	 	  	  	  	   	  <p>Month to Month</p>
-  	 	  	  	  	   	  <p>No Time Restrictions</p>
-  	 	  	  	  	   	  <p>Gym and Cardio</p>
-  	 	  	  	  	   	  <p>Service Locker Rooms</p>
-  	 	  	  	  	   	  <a href="" class="btn">Join Now</a>
-  	 	  	  	  	   </div>
-  	 	  	  	  </div>
-  	 	  	  </div>
-  	 	  	  <div class="box wow bounceInUp" data-wow-delay="0.2s">
-  	 	  	  	  <div class="inner">
-  	 	  	  	  	   <div class="price-tag">
-  	 	  	  	  	   	  $69/Month
-  	 	  	  	  	   </div>
-  	 	  	  	  	   <div class="img">
-  	 	  	  	  	   	 <img src="images/price2.jpg" alt="price" />
-  	 	  	  	  	   </div>
-  	 	  	  	  	   <div class="text">
-  	 	  	  	  	   	  <h3>Body Building Training</h3>
-  	 	  	  	  	   	  <p>Get Free WiFi</p>
-  	 	  	  	  	   	  <p>Month to Month</p>
-  	 	  	  	  	   	  <p>No Time Restrictions</p>
-  	 	  	  	  	   	  <p>Gym and Cardio</p>
-  	 	  	  	  	   	  <p>Service Locker Rooms</p>
-  	 	  	  	  	   	  <a href="" class="btn">Join Now</a>
-  	 	  	  	  	   </div>
-  	 	  	  	  </div>
-  	 	  	  </div>
-  	 	  	  <div class="box wow bounceInUp" data-wow-delay="0.4s">
-  	 	  	  	  <div class="inner">
-  	 	  	  	  	   <div class="price-tag">
-  	 	  	  	  	   	  $99/Month
-  	 	  	  	  	   </div>
-  	 	  	  	  	   <div class="img">
-  	 	  	  	  	   	 <img src="images/price3.jpg" alt="price" />
-  	 	  	  	  	   </div>
-  	 	  	  	  	   <div class="text">
-  	 	  	  	  	   	  <h3>Body Building Training</h3>
-  	 	  	  	  	   	  <p>Get Free WiFi</p>
-  	 	  	  	  	   	  <p>Month to Month</p>
-  	 	  	  	  	   	  <p>No Time Restrictions</p>
-  	 	  	  	  	   	  <p>Gym and Cardio</p>
-  	 	  	  	  	   	  <p>Service Locker Rooms</p>
-  	 	  	  	  	   	  <a href="" class="btn">Join Now</a>
-  	 	  	  	  	   </div>
-  	 	  	  	  </div>
-  	 	  	  </div>
-  	 	  </div>
-  	 </div>
-  </section>
- <!-- End Price -->
-
- <!-- Start Contact -->
-  <section class="contact" id="login">
-     <div class="container">
+<!-- Start Results -->
+<section class="price-package" id="price">
+    <div class="container">
+        <h2>Choose Your Workout</h2>
+        <p class="title-p">Select a workout from the following results below</p>
         <div class="content">
-			
+            <?php
+            // Connect to the database
+            $servername = "localhost";
+            $username = "workit";
+            $password = "umbra(despair>Quartz218";
+            $dbname = "workit";
+
+            $conn = new mysqli($servername, $username, $password, $dbname);
+
+            // Check connection
+            if ($conn->connect_error) {
+                die("Connection failed: " . $conn->connect_error);
+            }
+
+            // Array of 10 IDs
+            $ids = array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+
+            // Fetch data from the database for the specified IDs
+            $sql = "SELECT Title, Type, Level, Equipment, Rating FROM megaGymDataset WHERE ID IN (" . implode(',', $ids) . ")";
+            $result = $conn->query($sql);
+
+            if ($result->num_rows > 0) {
+                // Initialize counter for number of packages
+                $package_count = 0;
+                
+                // Output each price package dynamically
+                while ($row = $result->fetch_assoc()) {
+                    // Start a new row after every 3 packages
+                    if ($package_count % 3 == 0) {
+                        echo '<div class="row">';
+                    }
+                    
+                    echo '<div class="col-md-4">'; // Assuming each package takes up 4 columns in a row
+                    echo '<div class="box wow bounceInUp">';
+                    echo '<div class="inner">';
+                    echo '<div class="price-tag">' ."Rating: ". $row["Rating"]."/10". '</div>';
+                    echo '<div class="img">';
+                    echo '<img src="images/price1.jpg" alt="price" />';
+                    echo '</div>';
+                    echo '<div class="text">';
+                    echo '<h3>' . $row["Title"] . '</h3>';
+                    echo '<p>Type: ' . $row["Type"] . '</p>';
+                    echo '<p>Level: ' . $row["Level"] . '</p>';
+                    echo '<p>Equipment: ' . $row["Equipment"] . '</p>';
+                    echo '<a href="" class="btn">Start Workout</a>';
+                    echo '</div>';
+                    echo '</div>';
+                    echo '</div>';
+                    echo '</div>';
+                    
+                    // Increment package count
+                    $package_count++;
+                    
+                    // Close the row after every 3 packages
+                    if ($package_count % 3 == 0) {
+                        echo '</div>'; // Close row
+                    }
+                }
+                
+                // Close the row if the total number of packages is not a multiple of 3
+                if ($package_count % 3 != 0) {
+                    echo '</div>'; // Close row
+                }
+            } else {
+                echo "0 results";
+            }
+
+            // Close the connection
+            $conn->close();
+            ?>
+        </div>
+    </div>
+</section>
+<!-- End Results -->
+
+<!-- Start Contact -->
+<section class="contact" id="login">
+    <div class="container">
+        <div class="content">
             <div class="box form wow slideInLeft">
-			   <h3 class="login-heading">Login</h3>
-               <form>
-                  <input type="text" placeholder="Email or Phone">
-                  <input type="password" placeholder="Password">
-                  
-                  
-                  <button type="submit">Login</button>
-               </form>
+                <h3 class="login-heading">Login</h3>
+                <form>
+                    <input type="text" placeholder="Email or Phone">
+                    <input type="password" placeholder="Password">
+                    <button type="submit">Login</button>
+                </form>
             </div>
             <div class="box text wow slideInRight">
-                 <h2>Get Connected with Gym</h2>
-                  <p class="title-p">Create an account to further enhance your workout and gain more suited experience.</p>
-                  <div class="info">
-                      <ul>
-                          <li><span class="fa fa-map-marker"></span>Sparck Jones Building, University of Huddersfield, HD1 3BZ</li>
-                          <li><span class="fa fa-phone"></span> 0123456789</li>
-                          <li><span class="fa fa-envelope"></span> workit@gym.com</li>
-                      </ul>
-                  </div>
-                  
-
-                 
+                <h2>Get Connected with Gym</h2>
+                <p class="title-p">Create an account to further enhance your workout and gain more suited experience.</p>
+                <div class="info">
+                    <ul>
+                        <li><span class="fa fa-map-marker"></span>Sparck Jones Building, University of Huddersfield, HD1 3BZ</li>
+                        <li><span class="fa fa-phone"></span> 0123456789</li>
+                        <li><span class="fa fa-envelope"></span> workit@gym.com</li>
+                    </ul>
+                </div>
             </div>
         </div>
-     </div>
-  </section>
- <!-- End Contact -->
+    </div>
+</section>
+<!-- End Contact -->
+
 
 
 
