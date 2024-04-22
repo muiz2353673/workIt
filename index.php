@@ -7,7 +7,7 @@
 
 	<!-- Define Python File Path -->
 	<?php 
-		$FLASK_SERVER_ADDRESS = "http://127.0.0.1:5000"; 
+		$FLASK_SERVER_ADDRESS = "http://127.0.0.1:5000/"; 
 	?> 
 
 	<style>
@@ -111,7 +111,8 @@
 					<form method="POST">
 						<div class="ai-form">
 							<label for="workout-type">Workout Type:</label>
-							<select name="workout-type" id="workout-type">
+							<select name="workout-type" id="workout-type" required>
+								<option value="">-- Select an option --</option>
 								<option value="Strength">Strength</option>
 								<option value="Plyometrics">Plyometrics</option>
 								<option value="Cardio">Cardio</option>
@@ -122,16 +123,17 @@
 							</select>
 
 							<label for="body-part">Body Part:</label>
-							<select name="body-part" id="body-part">
+							<select name="body-part" id="body-part" required>
+								<option value="">-- Select an option --</option>
 								<option value="Abdominals">Abdominals</option>
-								<option value="abductors">Abductors</option>
+								<option value="Abductors">Abductors</option>
 								<option value="Biceps">Biceps</option>
-								<option value="Legs">Legs</option>
+								<option value="Lats">Lats</option>
 								<option value="Chest">Chest</option>
 								<option value="Forearms">Forearms</option>
-								<option value="lats">Lats</option>
-								<option value="lower-back">Lower-Back</option>
-								<option value="middle-back">Middle-Back</option>
+								<option value="Lats">Lats</option>
+								<option value="Lower-back">Lower-Back</option>
+								<option value="Middle-back">Middle-Back</option>
 								<option value="Traps">Traps</option>
 								<option value="Neck">Necks</option>
 								<option value="Shoulder">Shoulder</option>
@@ -139,37 +141,32 @@
 							</select>
 
 							<label for="equipment">Equipment:</label>
-							<select name="equipment" id="equipment">
+							<select name="equipment" id="equipment" required>
+								<option value="">-- Select an option --</option>
 								<option value="Bands">Bands</option>
-								<option value="barbell">Barbell</option>
+								<option value="Barbell">Barbell</option>
 								<option value="Kettlebells">Kettlebells</option>
 								<option value="Dumbbells">Dumbbells</option>
 								<option value="Other">Other</option>
 								<option value="Cable">Cable</option>
 								<option value="Machine">Machine</option>
 								<option value="Body Only">Body Only</option>
-								<option value="Medicine">Medicine Ball</option>
-								<option value="exercises">Exercise</option>
-								<option value="Foam">Foam Roll</option>
-								<option value="E-Z Curl">E-Z Curl Bar</option>
+								<option value="Medicine Ball">Medicine Ball</option>
+								<option value="Exercises">Exercise</option>
+								<option value="Foam Roll">Foam Roll</option>
+								<option value="E-Z Curl Bar">E-Z Curl Bar</option>
 							</select>
 
-							<label for="level">Difficulty:</label>
-							<select name="level" id="level">
+							<label for="level">Level:</label>
+							<select name="level" id="level" required>
+								<option value="">-- Select an option --</option>
 								<option value="Beginner">Beginner</option>
 								<option value="Intermediate">Intermediate</option>
 								<option value="Expert">Expert</option>
 							</select>
-
-							<label for="ratings">Rating:</label>
-							<select name="ratings" id="ratings">
-								<option value="begin">High-to-Low</option>
-								<option value="inter">Low-to-High</option>
-								
-							</select>
 						</div>
 						<input type="submit" name="recommend" class="btn" value="Recommend">
-						<input type="reset" value="Reset">
+						<!-- <input type="reset" value="Reset"> -->
 					</form>
 					
 					<?php
@@ -179,18 +176,26 @@
 							echo $_POST['body-part'] . "<br>";
 							echo $_POST['equipment'] . "<br>";
 							echo $_POST['level'] . "<br>";
-							echo $_POST['ratings'] . "<br>";
+							
+							$url = $FLASK_SERVER_ADDRESS .
+							"?workout-type=".urlencode($_POST['workout-type']).
+							"&body-part=".urlencode($_POST['body-part']).
+							"&equipment=".urlencode($_POST['equipment']).
+							"&level=".urlencode($_POST['level']);
+							
+							// echo $url . "<br>";
 
-							$url = "http://127.0.0.1:5000/".
-							"?workout-type=" . $_POST['workout-type'] . 
-							"&body-part=".$_POST['body-part'].
-							"&equipment=".$_POST['equipment'].
-							"&level=".$_POST['level'].
-							"&ratings=".$_POST['ratings'];
+							$response = @file_get_contents($url);
 
-							$IDs = json_decode(file_get_contents($url));
-
-							print_r($IDs);
+							if ($response === false) {
+								// Error occurred
+								echo "No exercises are similar with your references";
+							} else {
+								// Content was fetched successfully
+								// Process the response
+								$IDs = json_decode($response);
+								print_r($IDs);
+							}
 						}
 					}
 					?>
