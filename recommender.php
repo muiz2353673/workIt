@@ -121,70 +121,95 @@
         <p class="title-p">Select a workout from the following results below</p>
         <div class="content">
             <?php
-            // Connect to the database
-            $servername = "db5015710081.hosting-data.io";
-            $port = "3306";
-            $username = "dbu3721101";
-            $password = "Quartzumbra186";
-            $dbname = "db5015710081";
+            // SSH credentials
+            $ssh_host = 'selene.hud.ac.uk';  // SSH host
+            $ssh_port = 22;  // SSH port
+            $ssh_user = 'workit';  // SSH username
+            $ssh_pass = 'umbra(despair>Quartz218';  // SSH password
 
-            $conn = new mysqli($servername, $username, $password, $dbname, $port);
+            // MySQL database credentials
+            $db_host = 'localhost';  // MySQL host (SSH tunnel will connect to this)
+            $db_user = 'workit';  // MySQL username
+            $db_pass = 'umbra(despair>Quartz218';  // MySQL password
+            $db_name = 'workit';  // MySQL database name
 
-            // Check connection
-            if ($conn->connect_error) {
-                die("Connection failed: " . $conn->connect_error);
-            }
-
-            // Array of 10 IDs
-            $ids = array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
-
-            // Fetch data from the database for the specified IDs
-            $sql = "SELECT Title, Type, Level, Equipment, Rating FROM megaGymDataset WHERE ID IN (" . implode(',', $ids) . ")";
-            $result = $conn->query($sql);
-
-            if ($result->num_rows > 0) {
-                // Output each price package dynamically
-                $count = 0;
-                while ($row = $result->fetch_assoc()) {
-                    if ($count % 3 == 0) {
-                        echo '<div class="row">';
+            // Create SSH tunnel
+            $connection = ssh2_connect($ssh_host, $ssh_port);
+            if (ssh2_auth_password($connection, $ssh_user, $ssh_pass)) {
+                // Forward a local port to the remote MySQL server
+                $tunnel = ssh2_tunnel($connection, $db_host, 3306);
+                if ($tunnel) {
+                    // Connect to the MySQL server over the SSH tunnel
+                    $conn = new mysqli('127.0.0.1', $db_user, $db_pass, $db_name);
+                    if ($conn->connect_error) {
+                        die("Connection failed: " . $conn->connect_error);
                     }
-                    echo '<div class="box wow bounceInUp">';
-                    echo '<div class="inner">';
-                    echo '<div class="price-tag">' ."Rating: ". $row["Rating"]."/10". '</div>';
-                    echo '<div class="img">';
-                    echo '<img src="images/price1.jpg" alt="price" />';
-                    echo '</div>';
-                    echo '<div class="text">';
-                    echo '<h3>' . $row["Title"] . '</h3>';
-                    echo '<p>Type: ' . $row["Type"] . '</p>';
-                    echo '<p>Level: ' . $row["Level"] . '</p>';
-                    echo '<p>Equipment: ' . $row["Equipment"] . '</p>';
-                    echo '<a href="" class="btn">Start Workout</a>';
-                    echo '</div>';
-                    echo '</div>';
-                    echo '</div>';
-                    $count++;
-                    if ($count % 3 == 0) {
-                        echo '</div>'; // Close the row
+
+                    // Array of 10 IDs
+                    $ids = array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+
+                    // Fetch data from the database for the specified IDs
+                    $sql = "SELECT Title, Type, Level, Equipment, Rating FROM megaGymDataset WHERE ID IN (" . implode(',', $ids) . ")";
+                    $result = $conn->query($sql);
+
+                    if ($result->num_rows > 0) {
+                        // Output each price package dynamically
+                        $package_count = 0; // Initialize counter for number of packages
+
+                        while ($row = $result->fetch_assoc()) {
+                            // Start a new row before outputting each package if needed
+                            if ($package_count % 3 == 0) {
+                                echo '<div class="row">';
+                            }
+
+                            echo '<div class="col-md-4">';
+                            echo '<div class="box wow bounceInUp">';
+                            echo '<div class="inner">';
+                            echo '<div class="price-tag">' ."Rating: ". $row["Rating"]."/10". '</div>';
+                            echo '<div class="img">';
+                            echo '<img src="images/price1.jpg" alt="price" />';
+                            echo '</div>';
+                            echo '<div class="text">';
+                            echo '<h3>' . $row["Title"] . '</h3>';
+                            echo '<p>Type: ' . $row["Type"] . '</p>';
+                            echo '<p>Level: ' . $row["Level"] . '</p>';
+                            echo '<p>Equipment: ' . $row["Equipment"] . '</p>';
+                            echo '<a href="" class="btn">Start Workout</a>';
+                            echo '</div>';
+                            echo '</div>';
+                            echo '</div>';
+                            echo '</div>';
+
+                            // Increment package count
+                            $package_count++;
+
+                            // Close the row after every 3 packages
+                            if ($package_count % 3 == 0) {
+                                echo '</div>'; // Close row
+                            }
+                        }
+
+                        // Close the row if the total number of packages is not a multiple of 3
+                        if ($package_count % 3 != 0) {
+                            echo '</div>'; // Close row
+                        }
+                    } else {
+                        echo "0 results";
                     }
-                }
-                // Close the row if the number of items is not divisible by 3
-                if ($count % 3 != 0) {
-                    echo '</div>'; // Close the row
+
+                    // Close the connection
+                    $conn->close();
+                } else {
+                    echo "SSH tunnel creation failed.";
                 }
             } else {
-                echo "0 results";
+                echo "SSH authentication failed.";
             }
-
-            // Close the connection
-            $conn->close();
             ?>
         </div>
     </div>
 </section>
 <!-- End Results -->
-
 
 <!-- Start Contact -->
 <section class="contact" id="login">
