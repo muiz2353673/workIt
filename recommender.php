@@ -122,12 +122,13 @@
         <div class="content">
             <?php
             // Connect to the database
-            $servername = "localhost";
-            $username = "workit";
-            $password = "umbra(despair>Quartz218";
-            $dbname = "workit";
+            $servername = "db5015710081.hosting-data.io";
+            $port = "3306";
+            $username = "dbu3721101";
+            $password = "Quartzumbra186";
+            $dbname = "db5015710081";
 
-            $conn = new mysqli($servername, $username, $password, $dbname);
+            $conn = new mysqli($servername, $username, $password, $dbname, $port);
 
             // Check connection
             if ($conn->connect_error) {
@@ -143,7 +144,11 @@
 
             if ($result->num_rows > 0) {
                 // Output each price package dynamically
+                $count = 0;
                 while ($row = $result->fetch_assoc()) {
+                    if ($count % 3 == 0) {
+                        echo '<div class="row">';
+                    }
                     echo '<div class="box wow bounceInUp">';
                     echo '<div class="inner">';
                     echo '<div class="price-tag">' ."Rating: ". $row["Rating"]."/10". '</div>';
@@ -159,6 +164,14 @@
                     echo '</div>';
                     echo '</div>';
                     echo '</div>';
+                    $count++;
+                    if ($count % 3 == 0) {
+                        echo '</div>'; // Close the row
+                    }
+                }
+                // Close the row if the number of items is not divisible by 3
+                if ($count % 3 != 0) {
+                    echo '</div>'; // Close the row
                 }
             } else {
                 echo "0 results";
@@ -171,6 +184,7 @@
     </div>
 </section>
 <!-- End Results -->
+
 
 <!-- Start Contact -->
 <section class="contact" id="login">
@@ -254,6 +268,8 @@
       }
     );
     wow.init();
+
+	
 
 	  
 
