@@ -142,17 +142,8 @@
             $result = $conn->query($sql);
 
             if ($result->num_rows > 0) {
-                // Initialize counter for number of packages
-                $package_count = 0;
-                
                 // Output each price package dynamically
                 while ($row = $result->fetch_assoc()) {
-                    // Start a new row after every 3 packages
-                    if ($package_count % 3 == 0) {
-                        echo '<div class="row">';
-                    }
-                    
-                    echo '<div class="col-md-4">'; // Assuming each package takes up 4 columns in a row
                     echo '<div class="box wow bounceInUp">';
                     echo '<div class="inner">';
                     echo '<div class="price-tag">' ."Rating: ". $row["Rating"]."/10". '</div>';
@@ -168,20 +159,6 @@
                     echo '</div>';
                     echo '</div>';
                     echo '</div>';
-                    echo '</div>';
-                    
-                    // Increment package count
-                    $package_count++;
-                    
-                    // Close the row after every 3 packages
-                    if ($package_count % 3 == 0) {
-                        echo '</div>'; // Close row
-                    }
-                }
-                
-                // Close the row if the total number of packages is not a multiple of 3
-                if ($package_count % 3 != 0) {
-                    echo '</div>'; // Close row
                 }
             } else {
                 echo "0 results";
