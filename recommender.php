@@ -39,74 +39,102 @@
  <!-- End Header  -->
 
   <!-- AI Recommender -->
-  <section class="service" id="service">
+ <section class="service" id="service">
  	<div class="container">
  		 <div class="content">
- 		 	  <div class="text box wow slideInLeft">
+		  <div class="text box wow slideInLeft">
                   <h2>AI Recommender</h2>
-                  <div class="ai-form">
-					<label for="type">Workout Type:</label>
-					<select name="workout-type" id="type">
-						<option value="Strength">Strength</option>
-						<option value="Plyometrics">Plyometrics</option>
-						<option value="Cardio">Cardio</option>
-						<option value="Stretching">Stretching</option>
-						<option value="Powerlifitng">Powerlifting</option>
-						<option value="Strongman">Strongman</option>
-						<option value="Olympic Weightlifitng">Olympic Weightlifitng</option>
-					</select>
+					<form method="POST">
+						<div class="ai-form">
+							<label for="workout-type">Workout Type:</label>
+							<select name="workout-type" id="workout-type" required>
+								<option value="">-- Select an option --</option>
+								<option value="Strength">Strength</option>
+								<option value="Plyometrics">Plyometrics</option>
+								<option value="Cardio">Cardio</option>
+								<option value="Stretching">Stretching</option>
+								<option value="Powerlifitng">Powerlifting</option>
+								<option value="Strongman">Strongman</option>
+								<option value="Olympic Weightlifitng">Olympic Weightlifitng</option>
+							</select>
 
-					<label for="body-part">Body Part:</label>
-					<select name="part" id="body-part">
-						<option value="abdominals">Abdominals</option>
-						<option value="abductors">Abductors</option>
-						<option value="biceps">Biceps</option>
-						<option value="Legs">Legs</option>
-						<option value="Chest">Chest</option>
-						<option value="Forearms">Forearms</option>
-						<option value="lats">Lats</option>
-						<option value="lower-back">Lower-Back</option>
-						<option value="middle-back">Middle-Back</option>
-						<option value="Traps">Traps</option>
-						<option value="Neck">Necks</option>
-						<option value="Shoulder">Shoulder</option>
-						<option value="Triceps">Triceps</option>
-					</select>
+							<label for="body-part">Body Part:</label>
+							<select name="body-part" id="body-part" required>
+								<option value="">-- Select an option --</option>
+								<option value="Abdominals">Abdominals</option>
+								<option value="Abductors">Abductors</option>
+								<option value="Biceps">Biceps</option>
+								<option value="Lats">Lats</option>
+								<option value="Chest">Chest</option>
+								<option value="Forearms">Forearms</option>
+								<option value="Lats">Lats</option>
+								<option value="Lower-back">Lower-Back</option>
+								<option value="Middle-back">Middle-Back</option>
+								<option value="Traps">Traps</option>
+								<option value="Neck">Necks</option>
+								<option value="Shoulder">Shoulder</option>
+								<option value="Triceps">Triceps</option>
+							</select>
 
-					<label for="eqipment">Equipment:</label>
-					<select name="dquipment" id="equipment">
-						<option value="bands">Bands</option>
-						<option value="barbell">Barbell</option>
-						<option value="Kettlebells">Kettlebells</option>
-						<option value="Dumbbells">Dumbbells</option>
-						<option value="Other">Other</option>
-						<option value="Cable">Cable</option>
-						<option value="Machine">Machine</option>
-						<option value="Body-only">Body only</option>
-						<option value="Medicine">Medicine Ball</option>
-						<option value="exercises">Exercise</option>
-						<option value="Foam">Foam Roll</option>
-						<option value="E-Z Curl">E-Z Curl Bar</option>
-					</select>
+							<label for="equipment">Equipment:</label>
+							<select name="equipment" id="equipment" required>
+								<option value="">-- Select an option --</option>
+								<option value="Bands">Bands</option>
+								<option value="Barbell">Barbell</option>
+								<option value="Kettlebells">Kettlebells</option>
+								<option value="Dumbbells">Dumbbells</option>
+								<option value="Other">Other</option>
+								<option value="Cable">Cable</option>
+								<option value="Machine">Machine</option>
+								<option value="Body Only">Body Only</option>
+								<option value="Medicine Ball">Medicine Ball</option>
+								<option value="Exercises">Exercise</option>
+								<option value="Foam Roll">Foam Roll</option>
+								<option value="E-Z Curl Bar">E-Z Curl Bar</option>
+							</select>
 
-					<label for="level">Difficulty:</label>
-					<select name="levels" id="level">
-						<option value="begin">Beginner</option>
-						<option value="inter">Intermediate</option>
-						<option value="Expert">Expert</option>
-					</select>
+							<label for="level">Level:</label>
+							<select name="level" id="level" required>
+								<option value="">-- Select an option --</option>
+								<option value="Beginner">Beginner</option>
+								<option value="Intermediate">Intermediate</option>
+								<option value="Expert">Expert</option>
+							</select>
+						</div>
+						<input type="submit" name="recommend" class="btn" value="Recommend">
+						<!-- <input type="reset" value="Reset"> -->
+					</form>
+					
+					<?php
+					if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+						if(isset($_POST['recommend'])) {
+							echo $_POST['workout-type'] . "<br>";
+							echo $_POST['body-part'] . "<br>";
+							echo $_POST['equipment'] . "<br>";
+							echo $_POST['level'] . "<br>";
+							
+							$url = $FLASK_SERVER_ADDRESS .
+							"?workout-type=".urlencode($_POST['workout-type']).
+							"&body-part=".urlencode($_POST['body-part']).
+							"&equipment=".urlencode($_POST['equipment']).
+							"&level=".urlencode($_POST['level']);
+							
+							// echo $url . "<br>";
 
-					<label for="ratings">Rating:</label>
-					<select name="rating" id="ratings">
-						<option value="begin">High-to-Low</option>
-						<option value="inter">Low-to-High</option>
-						
-					</select>
+							$response = @file_get_contents($url);
 
-
-
-				  </div>
-                  <a href="" class="btn">Search</a>
+							if ($response === false) {
+								// Error occurred
+								echo "No exercises are similar with your references";
+							} else {
+								// Content was fetched successfully
+								// Process the response
+								$IDs = json_decode($response);
+								print_r($IDs);
+							}
+						}
+					}
+					?>
  		 	  </div>
  		 	  
  		 </div>
