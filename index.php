@@ -172,10 +172,16 @@
 					<?php
 					if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 						if(isset($_POST['recommend'])) {
-							echo $_POST['workout-type'] . "<br>";
-							echo $_POST['body-part'] . "<br>";
-							echo $_POST['equipment'] . "<br>";
-							echo $_POST['level'] . "<br>";
+							echo '<div style="text-align: center; background-color: #000000; color: white; padding: 20px;">';
+							echo '<h2 style="margin-bottom: 10px;">Input Features:</h2>';
+							echo '<strong>Workout Type:</strong> ' . $_POST['workout-type'] . '<br>';
+							echo '<strong>Body Part:</strong> ' . $_POST['body-part'] . '<br>';
+							echo '<strong>Equipment:</strong> ' . $_POST['equipment'] . '<br>';
+							echo '<strong>Level:</strong> ' . $_POST['level'];
+							echo '</div>';
+							
+							
+							
 							
 							$url = $FLASK_SERVER_ADDRESS .
 							"?workout-type=".urlencode($_POST['workout-type']).
@@ -189,12 +195,82 @@
 
 							if ($response === false) {
 								// Error occurred
-								echo "No exercises are similar with your references";
+								echo "<style>
+								.error {
+									color: yellow;
+									font-size: 24px;
+									text-align: center;
+									border: 2px solid black;
+									padding: 10px;
+								}
+							</style>";
+							
+					  		echo "<div class='error'>No exercises are similar with your references</div>";
 							} else {
 								// Content was fetched successfully
 								// Process the response
-								$IDs = json_decode($response);
-								print_r($IDs);
+
+								// Parse JSON data
+								$data = json_decode($response, true);
+								echo '<h2 style="text-align: center;">Results</h2><br>';
+
+								// Display the data as a table with centered column values
+								echo '<style>
+								table {
+								width: 100%;
+								border-collapse: collapse;
+								}
+
+								th, td {
+								padding: 8px;
+								text-align: center; /* Center align column values */
+								border-bottom: 1px solid #ddd;
+								}
+
+								thead th {
+								background-color: #f2f2f2;
+								font-weight: bold;
+								}
+
+								tbody tr:nth-child(even) {
+								background-color: #f9f9f9;
+								}
+
+								tbody tr:hover {
+								background-color: #e9e9e9;
+								}
+								</style>';
+
+								echo '<table>';
+								echo '<thead>';
+								echo '<tr>';
+								echo '<th>ID</th>';
+								echo '<th>Title</th>';
+								echo '<th>Description</th>';
+								echo '<th>Type</th>';
+								echo '<th>Body Part</th>';
+								echo '<th>Equipment</th>';
+								echo '<th>Level</th>';
+								echo '<th>Rating</th>';
+								echo '</tr>';
+								echo '</thead>';
+								echo '<tbody>';
+
+								foreach ($data as $row) {
+									echo '<tr>';
+									echo '<td>' . $row['ID'] . '</td>';
+									echo '<td>' . $row['Title'] . '</td>';
+									echo '<td>' . $row['Desc'] . '</td>';
+									echo '<td>' . $row['Type'] . '</td>';
+									echo '<td>' . $row['BodyPart'] . '</td>';
+									echo '<td>' . $row['Equipment'] . '</td>';
+									echo '<td>' . $row['Level'] . '</td>';
+									echo '<td>' . number_format($row['Rating'], 2) . '</td>'; // Round rating to 2 decimal places
+									echo '</tr>';
+								}
+
+								echo '</tbody>';
+								echo '</table>';
 							}
 						}
 					}

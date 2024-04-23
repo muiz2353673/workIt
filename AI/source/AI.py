@@ -106,7 +106,7 @@ def index():
     user_input += [str(request.args.get("level"))]
   
     IDs = recommend_exercises(user_input, model, dataset.copy())
-    return IDs
+    return dataset.iloc[IDs].to_json(orient='records')
 
 if __name__ == '__main__':
     app.run(debug=True)
